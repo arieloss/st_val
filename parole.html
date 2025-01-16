@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Lyrics</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e2a78 0%, #ff758c 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeIn 1.5s ease-in;
+}
+
+.player-container {
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px) ;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    
+}
+
+audio {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 30px;
+}
+
+.lyrics {
+    font-size: 1.2em;
+    line-height: 1.8;
+    text-align: center;
+    min-height: 200px;
+    padding: 20px;
+    position: relative;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.typing-text {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 100%;
+    opacity: 0;
+    animation: fadeIn 0.7s ease-in forwards;
+}
+
+.carousel {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.carousel img {
+    width: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel img.active {
+    display: block;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .player-container {
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    .lyrics {
+        font-size: 1em;
+    }
+}
+
+
+/* Animations */
+@keyframes fadeIn { 
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoomOut {
+    from { transform: scale(1.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes rotateIn {
+    from { transform: rotate(-180deg); opacity: 0; }
+    to { transform: rotate(0deg); opacity: 1; }
+}
+
+@keyframes rotateOut {
+    from { transform: rotate(180deg); opacity: 0; }
+    to { transform: rotate(0deg); opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeSlideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes flipIn {
+    from { transform: perspective(400px) rotateY(90deg); opacity: 0; }
+    to { transform: perspective(400px) rotateY(0); opacity: 1; }
+}
+
+/* Dynamic animation class */
+.carousel img.animated {
+    animation-duration: 1.5s;
+    animation-fill-mode: both;
+}
+
+</style>
+</head>
+<body>
+<h1>"Perfect" by Ed Sheeran</h1>
+
+<div class="container">
+    <div class="front">
+        <div class="front-left"></div>
+        <div class="front-right"></div>
+        <img src="furina.png" class="love">
+    </div>
+
+    <div class="back">
+        <div class="back-left"></div>
+        <div class="back-right"></div>
+    </div>
+
+    <div class="left"></div>
+    <div class="right"></div>
+
+    <div class="left-piece"></div>
+    <div class="left-piece2"></div>
+    <div class="left-piece3"></div>
+    <div class="left-piece4"></div>
+    <div class="left-piece5"></div>
+    <div class="left-piece6"></div>
+    <div class="left-piece7"></div>
+    <div class="left-piece8"></div>
+    <div class="left-piece9"></div>
+    <div class="left-piece10"></div>
+    <div class="left-piece11"></div>
+    <div class="left-piece12"></div>
+    <div class="left-piece13"></div>
+    <div class="left-piece14"></div>
+    <div class="left-piece15"></div>
+    <div class="left-piece16"></div>
+    <div class="left-piece17"></div>
+    <div class="left-piece18"></div>
+    <div class="left-piece19"></div>
+    <div class="left-piece20"></div>
+    <div class="left-piece21"></div>
+    <div class="left-piece22"></div>
+    <div class="left-piece23"></div>
+    <div class="right-piece"></div>
+    <div class="right-piece2"></div>
+    <div class="right-piece3"></div>
+    <div class="right-piece4"></div>
+    <div class="right-piece5"></div>
+    <div class="right-piece6"></div>
+    <div class="right-piece7"></div>
+    <div class="right-piece8"></div>
+    <div class="right-piece9"></div>
+    <div class="right-piece10"></div>
+    <div class="right-piece11"></div>
+    <div class="right-piece12"></div>
+    <div class="right-piece13"></div>
+    <div class="right-piece14"></div>
+    <div class="right-piece15"></div>
+    <div class="right-piece16"></div>
+    <div class="right-piece17"></div>
+    <div class="right-piece18"></div>
+    <div class="right-piece19"></div>
+    <div class="right-piece20"></div>
+    <div class="right-piece21"></div>
+    <div class="right-piece22"></div>
+    <div class="right-piece23"></div>
+</div>
+
+<div class="player-container">
+    <audio id="audio" controls aria-label="Audio player for the song Perfect">
+        <source src="audio/ed_sheeran_perfect_aac_80746.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div id="lyrics" class="lyrics" aria-live="polite">
+        <!-- Lyrics will appear here -->
+    </div>
+</div>
+
+<div class="carousel" id="carousel">
+    <img src="img/photo1.jpeg" alt="Romantic scenery 1" class="active">
+    <img src="img/photo2.jpeg" alt="Romantic scenery 2">
+    <img src="img/photo3.jpeg" alt="Romantic scenery 3">
+    <img src="img/photo4.jpeg" alt="Romantic scenery 2">
+    <img src="img/photo5.jpeg" alt="Romantic scenery 3">
+    <img src="img/photo6.jpeg" alt="Romantic scenery 2">
+    <img src="img/phto7.jpeg" alt="Romantic scenery 3">
+    <img src="img/photo8.jpeg" alt="Romantic scenery 2">
+    <img src="img/photo9.jpeg" alt="Romantic scenery 3">
+    <img src="img/photo10.jpeg" alt="Romantic scenery 2">
+</div>
+
+<script>
+    const lyrics = [
+    { time: 3, text: "I found a love for me", duration: 7 },
+    { time: 10, text: "Oh, darling, just dive right in and follow my lead", duration: 7 },
+    { time: 17, text: "Well, I found a girl, beautiful and sweet", duration: 8 },
+    { time: 25, text: "Oh, I never knew you were the someone waitin' for me", duration: 7 },
+    { time: 32, text: "'Cause we were just kids when we fell in love, not knowin' what it was", duration: 9 },
+    { time: 41, text: "I will not give you up this time", duration: 8 },
+    { time: 49, text: "Oh, darling, just kiss me slow, your heart is all I own", duration: 7 },
+    { time: 56, text: "And in your eyes, you're holding mine", duration: 7 },
+    { time: 63, text: "Baby, I'm dancin' in the dark with you between my arms", duration: 11 },
+    { time: 74, text: "Barefoot on the grass while listenin' to our favourite song", duration: 7 },
+    { time: 81, text: "When you said you looked a mess, I whispered underneath my breath", duration: 7 },
+    { time: 88, text: 'But you heard it, "Darling, you look perfect tonight"', duration: 13 },
+    { time: 101, text: "Well, I found a woman, stronger than anyone I know", duration: 8 },
+    { time: 109, text: "She shares my dreams, I hope that someday, I'll share her home", duration: 7 },
+    { time: 116, text: "I found a love to carry more than just my secrets", duration: 8 },
+    { time: 124, text: "To carry love, to carry children of our own", duration: 6 },
+    { time: 130, text: "We are still kids, but we're so in love, fightin' against all odds", duration: 9 },
+    { time: 139, text: "I know we'll be alright this time", duration: 2 },
+    { time: 141, text: "Darling, just hold my hand, be my girl, I'll be your man", duration: 13 },
+    { time: 154, text: "I see my future in your eyes", duration: 6 },
+    { time: 160, text: "Oh, baby, I'm dancin' in the dark with you between my arms", duration: 11 },
+    { time: 171, text: "Barefoot on the grass while listenin' to our favourite song", duration: 8 },
+    { time: 179, text: "When I saw you in that dress, lookin' so beautiful", duration: 6 },
+    { time: 185, text: "I don't deserve this, darling, you look perfect tonight", duration: 14 },
+    { time: 199, text: "No, no, no", duration: 4 },
+    { time: 203, text: "Mm, oh", duration: 4 },
+    { time: 207, text: "Baby, I'm dancin' in the dark with you between my arms", duration: 10 },
+    { time: 217, text: "Barefoot on the grass, oh, listenin' to our favourite song", duration: 8 },
+    { time: 225, text: "I have faith in what I see, now I know I have met", duration: 5 },
+    { time: 230, text: "An angel in person, and she looks perfect", duration: 9 },
+    { time: 239, text: "Though I don't deserve this, you look perfect tonight", duration: 8 }
+];
+
+const audio = document.getElementById('audio');
+const lyricsDiv = document.getElementById('lyrics');
+const carousel = document.getElementById('carousel');
+const images = carousel.getElementsByTagName('img');
+
+function typeText(text) {
+    lyricsDiv.innerHTML = '';
+    const container = document.createElement('div');
+    container.className = 'typing-text';
+    lyricsDiv.appendChild(container);
+    container.textContent = text;
+}
+
+let currentLyricIndex = -1;
+let currentImageIndex = 0;
+
+const animations = [
+    'fadeIn',
+    'slideInFromLeft',
+    'slideInFromRight',
+    'zoomIn',
+    'zoomOut',
+    'rotateIn',
+    'rotateOut',
+    'fadeSlideUp',
+    'fadeSlideDown',
+    'flipIn'
+];
+
+function showNextImage() {
+    // Retirer l'animation précédente et cacher l'image actuelle
+    images[currentImageIndex].classList.remove('active', 'animated');
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+
+    // Ajouter une animation aléatoire à l'image suivante
+    const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+    images[currentImageIndex].classList.add('active', 'animated');
+    images[currentImageIndex].style.animationName = randomAnimation;
+}
+
+setInterval(showNextImage, 5000); // Changement toutes les 5 secondes
+
+audio.addEventListener('timeupdate', () => {
+    const currentTime = audio.currentTime;
+    const newLyric = lyrics.find((lyric, i) => 
+        currentTime >= lyric.time && (!lyrics[i + 1] || currentTime < lyrics[i + 1].time));
+    
+    if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
+        currentLyricIndex = lyrics.indexOf(newLyric);
+        typeText(newLyric.text);
+    }
+});
+
+let container = document.querySelector('.container');
+
+window.addEventListener('mousemove',(e)=>{
+  
+  x = e.pageX;
+  y = e.pageY;
+  
+  container.style.animation = "none";
+  container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+})
+
+window.addEventListener('mouseout',(e)=>{
+  container.style.animation = "animate 45s linear infinite";
+})
+
+ window.addEventListener("touchmove",(e)=>{
+  
+      var x = e.touches[0].pageX;
+      var y = e.touches[0].pageY;
+  
+  container.style.animation = "none";
+  container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  
+})
+
+window.addEventListener('touchend',(e)=>{
+  container.style.animation = "animate 45s linear infinite";
+})
+
+container.addEventListener('mouseover',()=>{
+  
+  document.querySelector('.love').style.opacity = "1";
+})
+
+</script>
+</body>
+</html>
