@@ -9,18 +9,23 @@
   
   
   
-  .love{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:50vmin;
-    height:40vmin;
-    object-fit:contain;
+  .love {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vmin;
+    height: 40vmin;
+    object-fit: contain;
     filter: saturate(2);
-    opacity:0;
-    transition:all 3s;
-  }
+    opacity: 1;  /* Changé de 0 à 1 */
+    transition: all 3s;
+}
+
+/* Ajoutez cette nouvelle classe pour l'image arrière */
+.back .love {
+    transform: translate(-50%, -50%) rotateY(180deg);
+}
   
   .note{
     position:absolute;
