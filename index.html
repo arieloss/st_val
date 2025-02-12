@@ -7,11 +7,34 @@
 <style>
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e2a78 0%, #ff758c 100%);
     margin: 0;
     padding: 20px;
     color: white;
     min-height: 100vh;
+    background: linear-gradient(135deg, #1e2a78 0%, #ff758c 100%);
+    perspective: 1px;
+    transform-style: preserve-3d;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.parallax-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: translateZ(-1px) scale(2);
 }
 
 h1 {
@@ -20,6 +43,7 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     animation: fadeIn 1.5s ease-in;
     margin-bottom: 40px;
+    position: relative;
 }
 
 .main-container {
@@ -31,23 +55,18 @@ h1 {
     flex-wrap: wrap;
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
-/* Styles pour le cœur 3D */
-.heart-container {
+/* Styles du cœur 3D */
+.container {
     width: 300px;
     height: 300px;
     position: relative;
-    perspective: 1000px;
-    margin: 20px;
-}
-
-.container {
-    width: 100%;
-    height: 100%;
-    position: relative;
     transform-style: preserve-3d;
     animation: animate 45s linear infinite;
+    margin: 20px;
 }
 
 .front, .back {
@@ -57,7 +76,62 @@ h1 {
     transform-style: preserve-3d;
 }
 
-.front img.love, .back img.love {
+.front-left, .front-right, .back-left, .back-right {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.front-left, .back-left {
+    left: 0;
+    transform-origin: left;
+}
+
+.front-right, .back-right {
+    right: 0;
+    transform-origin: right;
+}
+
+.left, .right {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+}
+
+.left { left: 0; }
+.right { right: 0; }
+
+[class^="left-piece"], [class^="right-piece"] {
+    position: absolute;
+    width: 100%;
+    height: 4.34%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transform-origin: right;
+}
+
+[class^="right-piece"] {
+    transform-origin: left;
+}
+
+/* Générer les positions des pièces */
+<script>
+    let css = '';
+    for(let i = 1; i <= 23; i++) {
+        let top = (i-1) * 4.34;
+        css += `
+        .left-piece${i ? i : ''} { top: ${top}%; }
+        .right-piece${i ? i : ''} { top: ${top}%; }
+        `;
+    }
+    document.write(css);
+</script>
+
+.love {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -66,30 +140,7 @@ h1 {
     transition: opacity 0.3s ease;
 }
 
-.front:hover img.love, .back:hover img.love {
-    opacity: 1;
-}
-
-.front-left, .front-right, .back-left, .back-right {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.front-left, .back-left {
-    left: 0;
-    border-radius: 15px 0 0 15px;
-}
-
-.front-right, .back-right {
-    right: 0;
-    border-radius: 0 15px 15px 0;
-}
-
-/* Styles pour le lecteur audio */
+/* Styles du lecteur */
 .player-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -98,10 +149,6 @@ h1 {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     width: 300px;
     transition: transform 0.3s ease;
-}
-
-.player-container:hover {
-    transform: translateY(-5px);
 }
 
 audio {
@@ -117,43 +164,18 @@ audio {
     min-height: 100px;
     padding: 20px;
     position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    margin-top: 20px;
+    transition: transform 0.5s ease;
 }
 
-/* Styles pour le carrousel */
-.carousel {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.carousel img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-
-.carousel img.active {
-    display: block;
-    opacity: 1;
+.typing-text {
+    display: inline-block;
+    animation: fadeInUp 0.7s ease-in;
 }
 
 /* Animations */
 @keyframes animate {
-    0% {
-        transform: rotateY(0deg) rotateX(0deg);
-    }
-    100% {
-        transform: rotateY(360deg) rotateX(360deg);
-    }
+    0% { transform: rotateY(0deg) rotateX(0deg); }
+    100% { transform: rotateY(360deg) rotateX(360deg); }
 }
 
 @keyframes fadeIn {
@@ -161,26 +183,46 @@ audio {
     to { opacity: 1; }
 }
 
-.typing-text {
-    display: inline-block;
-    animation: fadeIn 0.7s ease-in;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Media Queries */
+/* Media Queries améliorées */
 @media (max-width: 1200px) {
     .main-container {
         flex-direction: column;
         align-items: center;
     }
     
-    .heart-container, .player-container, .carousel {
-        width: 90%;
-        max-width: 300px;
-        margin: 20px auto;
+    .container {
+        transform: scale(0.9);
     }
+}
 
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
     h1 {
         font-size: 2em;
+    }
+    
+    .container {
+        transform: scale(0.8);
+    }
+    
+    .player-container {
+        width: 90%;
+        max-width: 300px;
+        padding: 1rem;
     }
 }
 
@@ -189,33 +231,75 @@ audio {
         font-size: 1.5em;
     }
     
-    .player-container {
-        padding: 1rem;
+    .container {
+        transform: scale(0.7);
     }
     
     .lyrics {
         font-size: 1em;
     }
 }
+
+@media (prefers-reduced-motion) {
+    .container {
+        animation: none;
+    }
+    
+    .parallax-bg {
+        transform: none;
+    }
+}
 </style>
 </head>
 <body>
+<div class="parallax-wrapper">
+    <div class="parallax-bg"></div>
+</div>
+
 <h1>"Perfect" by Ed Sheeran</h1>
 
 <div class="main-container">
-    <div class="heart-container">
-        <div class="container">
-            <div class="front">
-                <div class="front-left"></div>
-                <div class="front-right"></div>
-                <img src="img/photo1.jpeg" class="love" alt="Photo d'amour 1">
-            </div>
-            <div class="back">
-                <div class="back-left"></div>
-                <div class="back-right"></div>
-                <img src="img/photo10.jpeg" class="love" alt="Photo d'amour 2">
-            </div>
+    <div class="container">
+        <div class="front">
+            <div class="front-left"></div>
+            <div class="front-right"></div>
+            <img src="img/photo1.jpeg" class="love" alt="Photo d'amour 1">
         </div>
+        <div class="back">
+            <div class="back-left"></div>
+            <div class="back-right"></div>
+            <img src="img/photo10.jpeg" class="love" alt="Photo d'amour 2">
+        </div>
+        <div class="left"></div>
+        <div class="right"></div>
+        <!-- Pièces gauches -->
+        <div class="left-piece"></div>
+        <div class="left-piece2"></div>
+        <!-- ... répéter jusqu'à left-piece23 -->
+        <!-- Pièces droites -->
+        <div class="right-piece"></div>
+        <div class="right-piece2"></div>
+        <div class="right-piece3"></div>
+        <div class="right-piece4"></div>
+        <div class="right-piece5"></div>
+        <div class="right-piece6"></div>
+        <div class="right-piece7"></div>
+        <div class="right-piece8"></div>
+        <div class="right-piece9"></div>
+        <div class="right-piece10"></div>
+        <div class="right-piece11"></div>
+        <div class="right-piece12"></div>
+        <div class="right-piece13"></div>
+        <div class="right-piece14"></div>
+        <div class="right-piece15"></div>
+        <div class="right-piece16"></div>
+        <div class="right-piece17"></div>
+        <div class="right-piece18"></div>
+        <div class="right-piece19"></div>
+        <div class="right-piece20"></div>
+        <div class="right-piece21"></div>
+        <div class="right-piece22"></div>
+        <div class="right-piece23"></div>
     </div>
 
     <div class="player-container">
@@ -227,23 +311,11 @@ audio {
             <!-- Lyrics will appear here -->
         </div>
     </div>
-
-    <div class="carousel" id="carousel">
-        <img src="img/photo1.jpeg" alt="Romantic scenery 1" class="active">
-        <img src="img/photo2.jpeg" alt="Romantic scenery 2">
-        <img src="img/photo3.jpeg" alt="Romantic scenery 3">
-        <img src="img/photo4.jpeg" alt="Romantic scenery 4">
-        <img src="img/photo5.jpeg" alt="Romantic scenery 5">
-        <img src="img/photo6.jpeg" alt="Romantic scenery 6">
-        <img src="img/photo7.jpeg" alt="Romantic scenery 7">
-        <img src="img/photo8.jpeg" alt="Romantic scenery 8">
-        <img src="img/photo9.jpeg" alt="Romantic scenery 9">
-        <img src="img/photo10.jpeg" alt="Romantic scenery 10">
-    </div>
 </div>
 
 <script>
-const lyrics = [
+// Script existant pour les paroles...
+ const lyrics = [
     { time: 3, text: "I found a love for me", duration: 7 },
     { time: 10, text: "Oh, darling, just dive right in and follow my lead", duration: 7 },
     { time: 17, text: "Well, I found a girl, beautiful and sweet", duration: 8 },
@@ -277,44 +349,36 @@ const lyrics = [
     { time: 239, text: "Though I don't deserve this, you look perfect tonight", duration: 8 }
 ];
 
-
 const audio = document.getElementById('audio');
 const lyricsDiv = document.getElementById('lyrics');
-const carousel = document.getElementById('carousel');
-const images = carousel.getElementsByTagName('img');
 
-// Démarrer la lecture automatiquement
-window.addEventListener('load', () => {
-    try {
-        audio.play().catch(error => {
-            console.log('Autoplay prevented:', error);
-        });
-    } catch (e) {
-        console.log('Autoplay was prevented');
-    }
+// Amélioration de l'effet parallaxe
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    document.querySelector('.parallax-bg').style.transform = 
+        `translateZ(-1px) scale(2) translateY(${scrolled * 0.5}px)`;
 });
 
+// Amélioration des transitions entre les paroles
 function typeText(text) {
-    lyricsDiv.innerHTML = '';
-    const container = document.createElement('div');
-    container.className = 'typing-text';
-    lyricsDiv.appendChild(container);
-    container.textContent = text;
+    const oldText = lyricsDiv.querySelector('.typing-text');
+    if (oldText) {
+        oldText.style.transform = 'translateY(-20px)';
+        oldText.style.opacity = '0';
+    }
+    
+    setTimeout(() => {
+        lyricsDiv.innerHTML = '';
+        const container = document.createElement('div');
+        container.className = 'typing-text';
+        container.textContent = text;
+        lyricsDiv.appendChild(container);
+    }, oldText ? 500 : 0);
 }
 
 let currentLyricIndex = -1;
-let currentImageIndex = 0;
 
-function showNextImage() {
-    images[currentImageIndex].classList.remove('active');
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    images[currentImageIndex].classList.add('active');
-}
-
-// Changer d'image toutes les 5 secondes
-setInterval(showNextImage, 5000);
-
-// Synchroniser les paroles avec l'audio
+// Synchronisation des paroles avec l'audio
 audio.addEventListener('timeupdate', () => {
     const currentTime = audio.currentTime;
     const newLyric = lyrics.find((lyric, i) => 
@@ -326,15 +390,15 @@ audio.addEventListener('timeupdate', () => {
     }
 });
 
-// Amélioration de l'expérience utilisateur
-document.addEventListener('DOMContentLoaded', () => {
-    // Afficher un message initial dans les paroles
-    typeText("Cliquez sur play pour commencer...");
-    
-    // Gérer la fin de la chanson
-    audio.addEventListener('ended', () => {
-        typeText("Merci d'avoir écouté ♥");
-    });
+// Auto-démarrage de la musique
+window.addEventListener('load', () => {
+    try {
+        audio.play().catch(() => {
+            typeText("Cliquez sur play pour commencer...");
+        });
+    } catch (e) {
+        typeText("Cliquez sur play pour commencer...");
+    }
 });
 </script>
 </body>
