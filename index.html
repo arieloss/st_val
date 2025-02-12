@@ -19,33 +19,77 @@ h1 {
     font-size: 2.5em;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     animation: fadeIn 1.5s ease-in;
+    margin-bottom: 40px;
 }
 
 .main-container {
     display: flex;
     justify-content: space-around;
     align-items: start;
-    gap: 20px;
+    gap: 30px;
     padding: 20px;
     flex-wrap: wrap;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.container {
+/* Styles pour le cœur 3D */
+.heart-container {
     width: 300px;
     height: 300px;
     position: relative;
     perspective: 1000px;
+    margin: 20px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
     animation: animate 45s linear infinite;
 }
 
-.container img.love {
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.front img.love, .back img.love {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 15px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.front:hover img.love, .back:hover img.love {
     opacity: 1;
 }
 
+.front-left, .front-right, .back-left, .back-right {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.front-left, .back-left {
+    left: 0;
+    border-radius: 15px 0 0 15px;
+}
+
+.front-right, .back-right {
+    right: 0;
+    border-radius: 0 15px 15px 0;
+}
+
+/* Styles pour le lecteur audio */
 .player-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -53,15 +97,11 @@ h1 {
     border-radius: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     width: 300px;
+    transition: transform 0.3s ease;
 }
 
-.carousel {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+.player-container:hover {
+    transform: translateY(-5px);
 }
 
 audio {
@@ -77,6 +117,19 @@ audio {
     min-height: 100px;
     padding: 20px;
     position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Styles pour le carrousel */
+.carousel {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .carousel img {
@@ -93,6 +146,7 @@ audio {
     opacity: 1;
 }
 
+/* Animations */
 @keyframes animate {
     0% {
         transform: rotateY(0deg) rotateX(0deg);
@@ -102,24 +156,45 @@ audio {
     }
 }
 
-/* Vos animations existantes restent les mêmes */
-@keyframes fadeIn { 
+@keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* Autres keyframes animations... */
+.typing-text {
+    display: inline-block;
+    animation: fadeIn 0.7s ease-in;
+}
 
+/* Media Queries */
 @media (max-width: 1200px) {
     .main-container {
         flex-direction: column;
         align-items: center;
     }
     
-    .container, .player-container, .carousel {
+    .heart-container, .player-container, .carousel {
         width: 90%;
         max-width: 300px;
         margin: 20px auto;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+    
+    .player-container {
+        padding: 1rem;
+    }
+    
+    .lyrics {
+        font-size: 1em;
     }
 }
 </style>
@@ -128,68 +203,19 @@ audio {
 <h1>"Perfect" by Ed Sheeran</h1>
 
 <div class="main-container">
-    <div class="container">
-         <div class="front">
-        <div class="front-left"></div>
-        <div class="front-right"></div>
-        <img src="img/photo1.jpeg" class="love">
-    </div>
-
-    <div class="back">
-        <div class="back-left"></div>
-        <div class="back-right"></div>
-        <img src="img/photo10.jpeg" class="love">
-    </div>
-
-    <div class="left"></div>
-    <div class="right"></div>
-
-    <div class="left-piece"></div>
-    <div class="left-piece2"></div>
-    <div class="left-piece3"></div>
-    <div class="left-piece4"></div>
-    <div class="left-piece5"></div>
-    <div class="left-piece6"></div>
-    <div class="left-piece7"></div>
-    <div class="left-piece8"></div>
-    <div class="left-piece9"></div>
-    <div class="left-piece10"></div>
-    <div class="left-piece11"></div>
-    <div class="left-piece12"></div>
-    <div class="left-piece13"></div>
-    <div class="left-piece14"></div>
-    <div class="left-piece15"></div>
-    <div class="left-piece16"></div>
-    <div class="left-piece17"></div>
-    <div class="left-piece18"></div>
-    <div class="left-piece19"></div>
-    <div class="left-piece20"></div>
-    <div class="left-piece21"></div>
-    <div class="left-piece22"></div>
-    <div class="left-piece23"></div>
-    <div class="right-piece"></div>
-    <div class="right-piece2"></div>
-    <div class="right-piece3"></div>
-    <div class="right-piece4"></div>
-    <div class="right-piece5"></div>
-    <div class="right-piece6"></div>
-    <div class="right-piece7"></div>
-    <div class="right-piece8"></div>
-    <div class="right-piece9"></div>
-    <div class="right-piece10"></div>
-    <div class="right-piece11"></div>
-    <div class="right-piece12"></div>
-    <div class="right-piece13"></div>
-    <div class="right-piece14"></div>
-    <div class="right-piece15"></div>
-    <div class="right-piece16"></div>
-    <div class="right-piece17"></div>
-    <div class="right-piece18"></div>
-    <div class="right-piece19"></div>
-    <div class="right-piece20"></div>
-    <div class="right-piece21"></div>
-    <div class="right-piece22"></div>
-    <div class="right-piece23"></div>
+    <div class="heart-container">
+        <div class="container">
+            <div class="front">
+                <div class="front-left"></div>
+                <div class="front-right"></div>
+                <img src="img/photo1.jpeg" class="love" alt="Photo d'amour 1">
+            </div>
+            <div class="back">
+                <div class="back-left"></div>
+                <div class="back-right"></div>
+                <img src="img/photo10.jpeg" class="love" alt="Photo d'amour 2">
+            </div>
+        </div>
     </div>
 
     <div class="player-container">
@@ -217,8 +243,7 @@ audio {
 </div>
 
 <script>
-    // Le code des paroles reste le même
-     const lyrics = [
+const lyrics = [
     { time: 3, text: "I found a love for me", duration: 7 },
     { time: 10, text: "Oh, darling, just dive right in and follow my lead", duration: 7 },
     { time: 17, text: "Well, I found a girl, beautiful and sweet", duration: 8 },
@@ -252,64 +277,65 @@ audio {
     { time: 239, text: "Though I don't deserve this, you look perfect tonight", duration: 8 }
 ];
 
-    const audio = document.getElementById('audio');
-    const lyricsDiv = document.getElementById('lyrics');
-    const carousel = document.getElementById('carousel');
-    const images = carousel.getElementsByTagName('img');
 
-    // Démarrer la lecture automatiquement (peut être bloqué par le navigateur)
-    audio.addEventListener('canplaythrough', () => {
-        try {
-            audio.play();
-        } catch (e) {
-            console.log('Autoplay was prevented');
-        }
-    });
+const audio = document.getElementById('audio');
+const lyricsDiv = document.getElementById('lyrics');
+const carousel = document.getElementById('carousel');
+const images = carousel.getElementsByTagName('img');
 
-    function typeText(text) {
-        lyricsDiv.innerHTML = '';
-        const container = document.createElement('div');
-        container.className = 'typing-text';
-        lyricsDiv.appendChild(container);
-        container.textContent = text;
+// Démarrer la lecture automatiquement
+window.addEventListener('load', () => {
+    try {
+        audio.play().catch(error => {
+            console.log('Autoplay prevented:', error);
+        });
+    } catch (e) {
+        console.log('Autoplay was prevented');
     }
+});
 
-    let currentLyricIndex = -1;
-    let currentImageIndex = 0;
+function typeText(text) {
+    lyricsDiv.innerHTML = '';
+    const container = document.createElement('div');
+    container.className = 'typing-text';
+    lyricsDiv.appendChild(container);
+    container.textContent = text;
+}
 
-    const animations = [
-        'fadeIn',
-        'slideInFromLeft',
-        'slideInFromRight',
-        'zoomIn',
-        'zoomOut',
-        'rotateIn',
-        'rotateOut',
-        'fadeSlideUp',
-        'fadeSlideDown',
-        'flipIn'
-    ];
+let currentLyricIndex = -1;
+let currentImageIndex = 0;
 
-    function showNextImage() {
-        images[currentImageIndex].classList.remove('active', 'animated');
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
-        images[currentImageIndex].classList.add('active', 'animated');
-        images[currentImageIndex].style.animationName = randomAnimation;
+function showNextImage() {
+    images[currentImageIndex].classList.remove('active');
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    images[currentImageIndex].classList.add('active');
+}
+
+// Changer d'image toutes les 5 secondes
+setInterval(showNextImage, 5000);
+
+// Synchroniser les paroles avec l'audio
+audio.addEventListener('timeupdate', () => {
+    const currentTime = audio.currentTime;
+    const newLyric = lyrics.find((lyric, i) => 
+        currentTime >= lyric.time && (!lyrics[i + 1] || currentTime < lyrics[i + 1].time));
+    
+    if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
+        currentLyricIndex = lyrics.indexOf(newLyric);
+        typeText(newLyric.text);
     }
+});
 
-    setInterval(showNextImage, 5000);
-
-    audio.addEventListener('timeupdate', () => {
-        const currentTime = audio.currentTime;
-        const newLyric = lyrics.find((lyric, i) => 
-            currentTime >= lyric.time && (!lyrics[i + 1] || currentTime < lyrics[i + 1].time));
-        
-        if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
-            currentLyricIndex = lyrics.indexOf(newLyric);
-            typeText(newLyric.text);
-        }
+// Amélioration de l'expérience utilisateur
+document.addEventListener('DOMContentLoaded', () => {
+    // Afficher un message initial dans les paroles
+    typeText("Cliquez sur play pour commencer...");
+    
+    // Gérer la fin de la chanson
+    audio.addEventListener('ended', () => {
+        typeText("Merci d'avoir écouté ♥");
     });
+});
 </script>
 </body>
 </html>
