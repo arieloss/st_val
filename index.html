@@ -70,6 +70,60 @@
             text-align: center;
             min-height: 100px;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lyrics .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            margin: 0 4px;
+        }
+
+        .lyrics .word.animate {
+            animation: wordAppear 0.5s forwards;
+        }
+
+        @keyframes wordAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lyrics .typing-text {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .lyrics .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
         }
 
         audio {
@@ -94,6 +148,26 @@
 
         .content-wrapper {
             padding: 20px;
+        }
+
+        /* Animation pour le conteneur de paroles */
+        .lyrics-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lyrics-line {
+            position: relative;
+            animation: glowText 2s ease-in-out infinite;
+        }
+
+        @keyframes glowText {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(255,255,255,0.8);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            }
         }
     </style>
 </head>
@@ -149,10 +223,8 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Votre script JavaScript reste le même -->
     <script>
-        // Le code des paroles reste inchangé
-        const lyrics = [
+         const lyrics = [
     { time: 3, text: "I found a love for me", duration: 7 },
     { time: 10, text: "Oh, darling, just dive right in and follow my lead", duration: 7 },
     { time: 17, text: "Well, I found a girl, beautiful and sweet", duration: 8 },
@@ -199,12 +271,50 @@
             }
         });
 
-        function typeText(text) {
-            lyricsDiv.innerHTML = '';
+        function animateText(text) {
+            // Créer un nouveau conteneur pour les paroles
             const container = document.createElement('div');
-            container.className = 'typing-text';
-            lyricsDiv.appendChild(container);
-            container.textContent = text;
+            container.className = 'lyrics-line';
+            
+            // Diviser le texte en mots
+            const words = text.split(' ');
+            
+            // Vider le conteneur de paroles avec une animation de sortie
+            const oldContent = lyricsDiv.firstChild;
+            if (oldContent) {
+                oldContent.classList.add('fade-out');
+                setTimeout(() => {
+                    lyricsDiv.innerHTML = '';
+                    // Ajouter chaque mot avec sa propre animation
+                    words.forEach((word, index) => {
+                        const wordSpan = document.createElement('span');
+                        wordSpan.className = 'word';
+                        wordSpan.textContent = word;
+                        container.appendChild(wordSpan);
+                        
+                        // Déclencher l'animation avec un délai progressif
+                        setTimeout(() => {
+                            wordSpan.classList.add('animate');
+                        }, index * 100);
+                    });
+                    
+                    lyricsDiv.appendChild(container);
+                }, 500);
+            } else {
+                // Premier affichage sans animation de sortie
+                words.forEach((word, index) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'word';
+                    wordSpan.textContent = word;
+                    container.appendChild(wordSpan);
+                    
+                    setTimeout(() => {
+                        wordSpan.classList.add('animate');
+                    }, index * 100);
+                });
+                
+                lyricsDiv.appendChild(container);
+            }
         }
 
         let currentLyricIndex = -1;
@@ -225,7 +335,7 @@
             
             if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
                 currentLyricIndex = lyrics.indexOf(newLyric);
-                typeText(newLyric.text);
+                animateText(newLyric.text);
             }
         });
     </script>
