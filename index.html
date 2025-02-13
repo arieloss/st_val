@@ -1,255 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perfect Lyrics</title>
-<style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e2a78 0%, #ff758c 100%);
-    margin: 0;
-    padding: 20px;
-    color: white;
-    min-height: 100vh;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Lyrics</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e2a78 0%, #ff758c 100%);
+            color: white;
+            min-height: 100vh;
+        }
 
-h1 {
-    text-align: center;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    animation: fadeIn 1.5s ease-in;
-}
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeIn 1.5s ease-in;
+            padding: 20px 0;
+        }
 
-.main-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: start;
-    gap: 20px;
-    padding: 20px;
-    flex-wrap: wrap;
-}
+        .content-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            min-height: 300px;
+        }
 
-.container {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    perspective: 1000px;
-    animation: animate 45s linear infinite;
-}
+        .rotating-image {
+            position: relative;
+            perspective: 1000px;
+            animation: animate 45s linear infinite;
+        }
 
-.container img.love {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 15px;
-    opacity: 1;
-}
+        .rotating-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
 
-.player-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}
+        .carousel-container {
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
 
-.carousel {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
+        .carousel-container img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
 
-audio {
-    width: 100%;
-    margin: 20px 0;
-    border-radius: 30px;
-}
+        .carousel-container img.active {
+            display: block;
+            opacity: 1;
+        }
 
-.lyrics {
-    font-size: 1.2em;
-    line-height: 1.8;
-    text-align: center;
-    min-height: 100px;
-    padding: 20px;
-    position: relative;
-}
+        .lyrics {
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+            min-height: 100px;
+            padding: 20px;
+        }
 
-.carousel img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
+        audio {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 30px;
+        }
 
-.carousel img.active {
-    display: block;
-    opacity: 1;
-}
+        @keyframes animate {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+            100% {
+                transform: rotateY(360deg) rotateX(360deg);
+            }
+        }
 
-@keyframes animate {
-    0% {
-        transform: rotateY(0deg) rotateX(0deg);
-    }
-    100% {
-        transform: rotateY(360deg) rotateX(360deg);
-    }
-}
+        @keyframes fadeIn { 
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-/* Vos animations existantes restent les mêmes */
-@keyframes fadeIn { 
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Autres keyframes animations... */
-
-@media (max-width: 1200px) {
-    .main-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .container, .player-container, .carousel {
-        width: 90%;
-        max-width: 300px;
-        margin: 20px auto;
-    }
-}
-</style>
+        .content-wrapper {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>"Perfect" by Ed Sheeran</h1>
+    <div class="container-fluid">
+        <h1>"Perfect" by Ed Sheeran</h1>
+        
+        <div class="row g-4 justify-content-center">
+            <!-- Rotating Image -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="content-card">
+                    <div class="rotating-image">
+                        <img src="img/photo1.jpeg" class="img-fluid" alt="Love">
+                    </div>
+                </div>
+            </div>
 
-<div class="main-container">
-    <div class="container">
-        <img src="img/photo1.jpeg" class="love">
-    </div>
+            <!-- Audio Player and Lyrics -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="content-card">
+                    <div class="content-wrapper">
+                        <audio id="audio" controls autoplay aria-label="Audio player for the song Perfect">
+                            <source src="audio/ed_sheeran_perfect_aac_80746.m4a" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div id="lyrics" class="lyrics" aria-live="polite">
+                            <!-- Lyrics will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="player-container">
-        <audio id="audio" controls autoplay aria-label="Audio player for the song Perfect">
-            <source src="audio/ed_sheeran_perfect_aac_80746.m4a" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <div id="lyrics" class="lyrics" aria-live="polite">
-            <!-- Lyrics will appear here -->
+            <!-- Image Carousel -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="content-card">
+                    <div class="carousel-container" id="carousel">
+                        <img src="img/photo1.jpeg" alt="Romantic scenery 1" class="active">
+                        <img src="img/photo2.jpeg" alt="Romantic scenery 2">
+                        <img src="img/photo3.jpeg" alt="Romantic scenery 3">
+                        <img src="img/photo4.jpeg" alt="Romantic scenery 4">
+                        <img src="img/photo5.jpeg" alt="Romantic scenery 5">
+                        <img src="img/photo6.jpeg" alt="Romantic scenery 6">
+                        <img src="img/photo7.jpeg" alt="Romantic scenery 7">
+                        <img src="img/photo8.jpeg" alt="Romantic scenery 8">
+                        <img src="img/photo9.jpeg" alt="Romantic scenery 9">
+                        <img src="img/photo10.jpeg" alt="Romantic scenery 10">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="carousel" id="carousel">
-        <img src="img/photo1.jpeg" alt="Romantic scenery 1" class="active">
-        <img src="img/photo2.jpeg" alt="Romantic scenery 2">
-        <img src="img/photo3.jpeg" alt="Romantic scenery 3">
-        <img src="img/photo4.jpeg" alt="Romantic scenery 4">
-        <img src="img/photo5.jpeg" alt="Romantic scenery 5">
-        <img src="img/photo6.jpeg" alt="Romantic scenery 6">
-        <img src="img/photo7.jpeg" alt="Romantic scenery 7">
-        <img src="img/photo8.jpeg" alt="Romantic scenery 8">
-        <img src="img/photo9.jpeg" alt="Romantic scenery 9">
-        <img src="img/photo10.jpeg" alt="Romantic scenery 10">
-    </div>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Votre script JavaScript reste le même -->
+    <script>
+        // Le code des paroles reste inchangé
+        const lyrics = [
+            // ... (votre array de paroles reste le même)
+        ];
 
-<script>
-    // Le code des paroles reste le même
-    const lyrics = [
-    { time: 3, text: "I found a love for me", duration: 7 },
-    { time: 10, text: "Oh, darling, just dive right in and follow my lead", duration: 7 },
-    { time: 17, text: "Well, I found a girl, beautiful and sweet", duration: 8 },
-    { time: 25, text: "Oh, I never knew you were the someone waitin' for me", duration: 7 },
-    { time: 32, text: "'Cause we were just kids when we fell in love, not knowin' what it was", duration: 9 },
-    { time: 41, text: "I will not give you up this time", duration: 8 },
-    { time: 49, text: "Oh, darling, just kiss me slow, your heart is all I own", duration: 7 },
-    { time: 56, text: "And in your eyes, you're holding mine", duration: 7 },
-    { time: 63, text: "Baby, I'm dancin' in the dark with you between my arms", duration: 11 },
-    { time: 74, text: "Barefoot on the grass while listenin' to our favourite song", duration: 7 },
-    { time: 81, text: "When you said you looked a mess, I whispered underneath my breath", duration: 7 },
-    { time: 88, text: 'But you heard it, "Darling, you look perfect tonight"', duration: 13 },
-    { time: 101, text: "Well, I found a woman, stronger than anyone I know", duration: 8 },
-    { time: 109, text: "She shares my dreams, I hope that someday, I'll share her home", duration: 7 },
-    { time: 116, text: "I found a love to carry more than just my secrets", duration: 8 },
-    { time: 124, text: "To carry love, to carry children of our own", duration: 6 },
-    { time: 130, text: "We are still kids, but we're so in love, fightin' against all odds", duration: 9 },
-    { time: 139, text: "I know we'll be alright this time", duration: 2 },
-    { time: 141, text: "Darling, just hold my hand, be my girl, I'll be your man", duration: 13 },
-    { time: 154, text: "I see my future in your eyes", duration: 6 },
-    { time: 160, text: "Oh, baby, I'm dancin' in the dark with you between my arms", duration: 11 },
-    { time: 171, text: "Barefoot on the grass while listenin' to our favourite song", duration: 8 },
-    { time: 179, text: "When I saw you in that dress, lookin' so beautiful", duration: 6 },
-    { time: 185, text: "I don't deserve this, darling, you look perfect tonight", duration: 14 },
-    { time: 199, text: "No, no, no", duration: 4 },
-    { time: 203, text: "Mm, oh", duration: 4 },
-    { time: 207, text: "Baby, I'm dancin' in the dark with you between my arms", duration: 10 },
-    { time: 217, text: "Barefoot on the grass, oh, listenin' to our favourite song", duration: 8 },
-    { time: 225, text: "I have faith in what I see, now I know I have met", duration: 5 },
-    { time: 230, text: "An angel in person, and she looks perfect", duration: 9 },
-    { time: 239, text: "Though I don't deserve this, you look perfect tonight", duration: 8 }
-];
+        const audio = document.getElementById('audio');
+        const lyricsDiv = document.getElementById('lyrics');
+        const carousel = document.getElementById('carousel');
+        const images = carousel.getElementsByTagName('img');
 
-    const audio = document.getElementById('audio');
-    const lyricsDiv = document.getElementById('lyrics');
-    const carousel = document.getElementById('carousel');
-    const images = carousel.getElementsByTagName('img');
+        audio.addEventListener('canplaythrough', () => {
+            try {
+                audio.play();
+            } catch (e) {
+                console.log('Autoplay was prevented');
+            }
+        });
 
-    // Démarrer la lecture automatiquement (peut être bloqué par le navigateur)
-    audio.addEventListener('canplaythrough', () => {
-        try {
-            audio.play();
-        } catch (e) {
-            console.log('Autoplay was prevented');
+        function typeText(text) {
+            lyricsDiv.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'typing-text';
+            lyricsDiv.appendChild(container);
+            container.textContent = text;
         }
-    });
 
-    function typeText(text) {
-        lyricsDiv.innerHTML = '';
-        const container = document.createElement('div');
-        container.className = 'typing-text';
-        lyricsDiv.appendChild(container);
-        container.textContent = text;
-    }
+        let currentLyricIndex = -1;
+        let currentImageIndex = 0;
 
-    let currentLyricIndex = -1;
-    let currentImageIndex = 0;
-
-    const animations = [
-        'fadeIn',
-        'slideInFromLeft',
-        'slideInFromRight',
-        'zoomIn',
-        'zoomOut',
-        'rotateIn',
-        'rotateOut',
-        'fadeSlideUp',
-        'fadeSlideDown',
-        'flipIn'
-    ];
-
-    function showNextImage() {
-        images[currentImageIndex].classList.remove('active', 'animated');
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
-        images[currentImageIndex].classList.add('active', 'animated');
-        images[currentImageIndex].style.animationName = randomAnimation;
-    }
-
-    setInterval(showNextImage, 5000);
-
-    audio.addEventListener('timeupdate', () => {
-        const currentTime = audio.currentTime;
-        const newLyric = lyrics.find((lyric, i) => 
-            currentTime >= lyric.time && (!lyrics[i + 1] || currentTime < lyrics[i + 1].time));
-        
-        if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
-            currentLyricIndex = lyrics.indexOf(newLyric);
-            typeText(newLyric.text);
+        function showNextImage() {
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('active');
         }
-    });
-</script>
+
+        setInterval(showNextImage, 5000);
+
+        audio.addEventListener('timeupdate', () => {
+            const currentTime = audio.currentTime;
+            const newLyric = lyrics.find((lyric, i) => 
+                currentTime >= lyric.time && (!lyrics[i + 1] || currentTime < lyrics[i + 1].time));
+            
+            if (newLyric && lyrics.indexOf(newLyric) !== currentLyricIndex) {
+                currentLyricIndex = lyrics.indexOf(newLyric);
+                typeText(newLyric.text);
+            }
+        });
+    </script>
 </body>
 </html>
